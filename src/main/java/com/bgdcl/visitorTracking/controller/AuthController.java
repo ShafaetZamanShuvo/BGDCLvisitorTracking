@@ -32,7 +32,7 @@ import com.bgdcl.visitorTracking.repository.UserRepository;
 import com.bgdcl.visitorTracking.security.jwt.JwtUtils;
 import com.bgdcl.visitorTracking.security.services.UserDetailsImpl;
 
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
