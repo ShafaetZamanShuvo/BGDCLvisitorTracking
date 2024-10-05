@@ -4,6 +4,8 @@ import com.bgdcl.visitorTracking.model.Visitor;
 import com.bgdcl.visitorTracking.service.VisitorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,16 +23,19 @@ public class VisitorController {
 
     @GetMapping("/get-all")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<?> getVisitorsList()
-    {
-        List<Visitor> visitors = visitorService.getVisitorsList();
+    public ResponseEntity<Page<Visitor>> getVisitorsList(
+            @RequestParam(defaultValue = "0") int page,   // Default page is 0 (first page)
+            @RequestParam(defaultValue = "10") int size   // Default size is 10 records per page
+    ) {
+        Page<Visitor> visitors = visitorService.getVisitorsList(page, size);
         return ResponseEntity.ok(visitors);
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Visitor> addVisitor(@RequestBody @Valid Visitor visitor)
+    public ResponseEntity<Visitor> addVisitor(@RequestBody @Valid Visitor visitor, Principal principal)
     {
+        String username = principal.getName();
         Visitor newVisitor = visitorService.addVisitor(visitor);
         return ResponseEntity.ok(newVisitor);
     }

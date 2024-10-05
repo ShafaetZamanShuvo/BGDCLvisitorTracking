@@ -3,10 +3,12 @@ package com.bgdcl.visitorTracking.service;
 import com.bgdcl.visitorTracking.model.Visitor;
 import com.bgdcl.visitorTracking.repository.VisitorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class VisitorServiceImpl implements VisitorService {
@@ -19,8 +21,8 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public List<Visitor> getVisitorsList() {
-        return visitorRepository.findAll();
+    public Page<Visitor> getVisitorsList(int page, int size) {
+        return visitorRepository.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "entryTime")));
     }
 
     @Override
