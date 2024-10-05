@@ -28,11 +28,16 @@ public class  Visitor implements Serializable {
     @NotNull
     private String name;
 
+
     @NotNull
     @Pattern(regexp = "^\\d{11}$")
     private String phone;
 
+
     private String address;
+
+    @NotNull
+    private int noOfPeople = 1;
 
     @NotNull
     private LocalDateTime entryTime = LocalDateTime.now();
@@ -41,6 +46,7 @@ public class  Visitor implements Serializable {
 
     @NotNull
     private String reason;
+
 
     public void setExitTime(LocalDateTime now) {
         this.exitTime = now;

@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/visitors")
+@CrossOrigin(origins = "http://localhost:5174", maxAge = 3600) // it means that the API can be accessed by any client in any domain
 public class VisitorController {
 
     @Autowired
@@ -27,7 +29,7 @@ public class VisitorController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> addVisitor(@RequestBody @Valid Visitor visitor)
+    public ResponseEntity<Visitor> addVisitor(@RequestBody @Valid Visitor visitor)
     {
         Visitor newVisitor = visitorService.addVisitor(visitor);
         return ResponseEntity.ok(newVisitor);
